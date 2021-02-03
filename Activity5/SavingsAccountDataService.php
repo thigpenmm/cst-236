@@ -1,0 +1,58 @@
+<?php
+require_once 'Autoloader.php';
+
+
+class SavingsAccountDataService{
+    
+    private $conn;
+    
+    function __construct($conn){
+        $this->$conn;
+    }
+    
+    function getBalance(){
+        
+        // get a database connection
+        //$db = new Database();
+        //$conn = $db->getConnect();
+        
+        //run query to get balance
+        $sql = "SELECT `BALANCE` FROM `SAVING` ";
+        $result = $this->conn->query($sql);
+        
+        if ($result->num_rows == 0){
+            
+            //nothing found
+            //$conn->close();
+            return -1;
+        }
+        else{
+            // return balance
+            $row = $result->fetch_assoc();
+            $balance = $row['BALANCE'];
+            //$conn->close();
+            return $balance;
+        }
+    }
+    
+    function updateBalance($balance){
+        // get a database connection
+        //$db = new Database();
+       // $conn = $db->getConnect();
+        
+        //run query to get balance
+        $sql = "UPDATE `SAVING` SET BALANCE= $balance";
+        $result =  $this->conn->query($sql);
+        
+        if ($result){           
+            //update successful
+            //$conn->close();
+            return 1;
+        }
+        else{
+            // update failed
+            //$conn->close();
+            return 0;
+        }
+    }
+}
